@@ -76,7 +76,9 @@ VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
   config.hook_into :webmock
   # optional to hide api_key (this one is for national parks service specifically):
-  # config.filter_sensitive_data("<MY_PARKS_KEY>") { Rails.application.credentials.parks[:api_key]}
+  config.filter_sensitive_data("<RECIPE_APP_ID>") { Rails.application.credentials.edamam[:app_id]}
+  config.filter_sensitive_data("<RECIPE_APP_KEY>") { Rails.application.credentials.edamam[:app_key]}
   # optional to use :vcr flags on the end of it blocks in test:
   # config.configure_rspec_metadata!
+  config.allow_http_connections_when_no_cassette = true
 end
