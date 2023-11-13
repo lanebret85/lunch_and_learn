@@ -25,4 +25,17 @@ RSpec.describe CountriesService do
       end
     end
   end
+
+  describe "#get_capital_city_coordinates" do
+    it "returns an array of coordinates with 2 float elements, the first for latitude and the second for longitude" do
+      VCR.use_cassette("#get_capital_city_coordinates_service") do
+        coordinates = CountriesService.new.get_capital_city_coordinates("France")
+
+        expect(coordinates).to be_an(Array)
+        expect(coordinates.count).to eq(2)
+        expect(coordinates.first).to be_a(Float)
+        expect(coordinates.last).to be_a(Float)
+      end
+    end
+  end
 end
