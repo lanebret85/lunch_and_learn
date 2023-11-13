@@ -1,4 +1,10 @@
 class CountriesService
+  def get_capital_city_coordinates(country)
+    response = conn.get("name/#{country}")
+    parsed = JSON.parse(response.body, symbolize_names: true)
+    parsed.first[:latlng]
+  end
+
   def get_random_country
     get_all_countries.sample
   end
