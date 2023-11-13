@@ -78,6 +78,8 @@ VCR.configure do |config|
   # optional to hide api_key (this one is for national parks service specifically):
   config.filter_sensitive_data("<RECIPE_APP_ID>") { Rails.application.credentials.edamam[:app_id]}
   config.filter_sensitive_data("<RECIPE_APP_KEY>") { Rails.application.credentials.edamam[:app_key]}
+  config.filter_sensitive_data("<YOUTUBE_API_KEY>") { Rails.application.credentials.youtube[:api_key]}
+  config.filter_sensitive_data("<UNSPLASH_API_KEY>") { Rails.application.credentials.unsplash[:api_key]}
   # optional to use :vcr flags on the end of it blocks in test:
   # config.configure_rspec_metadata!
   config.allow_http_connections_when_no_cassette = true
