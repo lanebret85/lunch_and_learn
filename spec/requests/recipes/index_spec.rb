@@ -4,7 +4,7 @@ RSpec.describe "Recipes Index" do
   describe "When the backend receives a request for recipes with a country paramter provided" do
     it "makes a request to the Edamam API and receives recipe data associated to the country as a response, and then it sends a response to the frontend with the data it received from Edamam" do
       VCR.use_cassette("thailand recipes") do
-        get "/api/v1/recipes", params: { q: 'thailand' }
+        get "/api/v1/recipes", params: { country: 'thailand' }
 
         expect(response).to be_successful
         expect(response.status).to eq(200)
@@ -82,7 +82,7 @@ RSpec.describe "Recipes Index" do
   describe "When the backend receives a request for recipes associated to a country that does not return any results from the Edamam API or the backend has to generate a random country and that country does not return any Edamam results" do
     it "sends a response to the frontend that is still a json hash with the key/name 'data' pointing to an empty array" do
       VCR.use_cassette("liberia recipes") do
-        get "/api/v1/recipes", params: { q: "liberia" }
+        get "/api/v1/recipes", params: { country: "liberia" }
 
         expect(response).to be_successful
         expect(response.status).to eq(200)
