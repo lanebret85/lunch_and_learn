@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Places - Tourist Sites Index" do
   describe "When the backend receives a request for tourist sites with a country paramter provided" do
-    it "makes a request to the RESTcountries API and receives latitude and longitude for the capital city of that country. Then, it makes a request to the Places API for tourist sites within a 1000-meter radius of the city associated to the country. Finally, it sends the list of those tourist sites to the frontend" do
+    it "makes a request to the RESTcountries API and receives latitude and longitude for the capital city of that country. Then, it makes a request to the Places API for tourist sites within a 10000-meter radius of the city associated to the country. Finally, it sends the list of those tourist sites to the frontend" do
       VCR.use_cassette("Paris tourist sites") do
         get "/api/v1/tourist_sites", params: { country: 'France' }
 
@@ -41,6 +41,38 @@ RSpec.describe "Places - Tourist Sites Index" do
 
         expect(site_1_info).to have_key(:place_id)
         expect(site_1_info[:place_id]).to be_a(String)
+      end
+    end
+  end
+
+  describe "When the backend receives a request for tourist sites from a country that does not have data in the Places API" do
+    it "makes a request to the RESTcountries API and receives latitude and longitude for the capital city of that country. Then, it makes a request to the Places API for tourist sites within a 10000-meter radius of the city associated to the country. Receiving no results, it sends a 404 status code and an error for tourist sites not found to the frontend" do
+      VCR.use_cassette("Uruguay tourist sites") do
+        get "/api/v1/tourist_sites", params: { country: 'Uruguay' }
+
+        expect(response).to be_successful
+        expect(response.status).to eq(200)
+
+        parsed_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(parsed_response[:status]).to eq(404)
+        expect(parsed_response[:error]).to eq("Tourist sites not found")
+      end
+    end
+  end
+
+  describe "When the backend receives a request for tourist sites from an invalid country" do
+    it "makes a request to the RESTcountries API and receives a 404 status code and an error message. It then sends a response to the frontend with a 404 status code and an error for invalid country name" do
+      VCR.use_cassette("Spaghetti tourist sites") do
+        get "/api/v1/tourist_sites", params: { country: 'Spaghetti' }
+
+        expect(response).to be_successful
+        expect(response.status).to eq(200)
+
+        parsed_response = JSON.parse(response.body, symbolize_names: true)
+
+        expect(parsed_response[:status]).to eq(404)
+        expect(parsed_response[:error]).to eq("Invalid country name")
       end
     end
   end
