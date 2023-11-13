@@ -80,6 +80,7 @@ VCR.configure do |config|
   config.filter_sensitive_data("<RECIPE_APP_KEY>") { Rails.application.credentials.edamam[:app_key]}
   config.filter_sensitive_data("<YOUTUBE_API_KEY>") { Rails.application.credentials.youtube[:api_key]}
   config.filter_sensitive_data("<UNSPLASH_API_KEY>") { Rails.application.credentials.unsplash[:api_key]}
+  config.filter_sensitive_data("<PLACES_API_KEY>") { Rails.application.credentials.places[:api_key]}
   # optional to use :vcr flags on the end of it blocks in test:
   # config.configure_rspec_metadata!
   config.allow_http_connections_when_no_cassette = true
