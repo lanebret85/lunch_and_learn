@@ -9,4 +9,7 @@ Rails.application.routes.draw do
 
   post "/api/v1/users", to: "api/v1/users#create"
   post "/api/v1/sessions", to: "api/v1/sessions#create"
+  post "/api/v1/favorites", to: "api/v1/favorites#create"
+
+  get "/api/v1/favorites", to: "api/v1/user_favorites#index"
 end
