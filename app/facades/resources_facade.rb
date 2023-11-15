@@ -5,7 +5,7 @@ class ResourcesFacade
 
   def get_video(query)
     video = VideosService.new.get_mr_history_video(query)
-    if video == nil
+    if video.nil?
       {}
     else
       Video.new(video)
@@ -14,7 +14,7 @@ class ResourcesFacade
 
   def get_photos(query)
     photos = PhotosService.new.get_photos(query)
-    if photos == nil
+    if photos.empty?
       []
     else
       photos.map do |photo|
