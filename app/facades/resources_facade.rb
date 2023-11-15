@@ -14,7 +14,7 @@ class ResourcesFacade
 
   def get_photos(query)
     photos = PhotosService.new.get_photos(query)
-    if photos == nil
+    if photos.empty?
       []
     else
       photos.map do |photo|
